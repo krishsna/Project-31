@@ -1,30 +1,42 @@
-class Box{
-    constructor(x, y) {
+class Box {
+    constructor(x, y, width, height) {
       var options = {
-          
-          'restitution':0.4,
-          'friction':0.0,
-      
+          'restitution':0.8,
+          'friction':1.0,
+          'density':1.2,
+          'isStatic': false
       }
-      this.body = Bodies.rectangle(x, y, 30, 40, options);
-      this.width = 30;
-      this.height = 40;
-      this.visibility = 255;
-      World.add(world, this.body);
+      this.body1 = Bodies.rectangle(x, y, width, height, options);
+      this.width = width;
+      this.height = height;
+      this.Visibility = 255;
+      
+      World.add(world, this.body1);
     }
-  
     display(){
-      console.log(this.body.speed);
-      var angle = this.body.angle;
-      if (this.body.speed < 3){
+      var pos =this.body1.position;
+      var angle = this.body1.angle;
+      if(this.body1.speed < 5) {
         push();
-        translate(this.body.position.x, this.body.position.y);
+        translate(pos.x, pos.y);
         rotate(angle);
+        rectMode(CENTER);
+        strokeWeight(4);
+        fill("violet");
         rect(0, 0, this.width, this.height);
         pop();
       } else {
-        World.remove(world, this.body);
+        World.remove(world, this.body1);
+        push();
+        this.Visibility = this.Visibility - 5;
+        tint(255, this.Visibility);
+        pop();
       }
     }
-    
-    };
+
+    score() {
+      if(this.Visibility < 0 && this.Visibility > -105){
+          score = score + 1;
+      }
+    }
+  }
